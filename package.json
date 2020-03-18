@@ -1,0 +1,27 @@
+{
+  "name": "json-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean:prep": "source tools/clean-prep.sh run",
+    "clean:clear": "source tools/clean-prep.sh clean",
+    "lint": "source tools/lint.sh runLint",
+    "lint:fix": "source tools/lint.sh runFix",
+    "start": "npm run prep && npm run upload",
+    "start:docker": "source tools/configure-database.sh startDocker",
+    "prep": "sh tools/prep-files-driver.sh",
+    "prestart": "npm run clean:prep",
+    "poststart": "npm run clean:clear",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "upload": "sh tools/upload-files.sh"
+  },
+  "author": "Dukes Wine Engineering",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^4.5.0"
+  },
+  "devDependencies": {
+    "@dukes-wine/eslint-config-dukes-wine": "^1.3.0"
+  }
+}
