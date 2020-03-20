@@ -1,20 +1,19 @@
-DB="prod"
-COLLECTION="url-traffic"
+source env.sh;
+DB="prod";
+COLLECTION="url-traffic";
 
 startDocker() {
   docker run -d -p 3000:3000 \
     -v ~/metabase-data:/metabase-data \
     -e "MB_DB_FILE=/metabase-data/metabase.db" \
-    --name metabase metabase/metabase
+    --name metabase metabase/metabase;
 }
 
 killDocker() {
-  (docker kill metabase || true) && (docker rm metabase || true) && echo "container killed"
+  (docker kill metabase || true) && (docker rm metabase || true) && echo "container killed";
 }
 
 uploadMongo() {
-  source env.sh;
-
   mongoimport --host "$MONGO_DB_HOST" \
     --ssl --username "$MONGO_DB_USR" \
     --password "$MONGO_DB_PSW" \
@@ -30,8 +29,6 @@ exportMongo(){
 }
 
 uploadGcloud(){
-  source env.sh;
-
   bq load \
   --autodetect \
   --replace=true \

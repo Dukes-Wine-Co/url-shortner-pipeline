@@ -10,7 +10,7 @@ const formatObj = obj => {
     return obj;
 };
 
-async function processLineByLine() {
+const processLineByLine = async() => {
     const filePath = `${process.argv[2]}`;
     const fileStream = fs.createReadStream(filePath);
 
@@ -26,6 +26,12 @@ async function processLineByLine() {
             console.log(JSON.stringify(obj));
         }
     }
-}
+};
 
-processLineByLine();
+(async() => {
+    try {
+        await processLineByLine();
+    } catch (e) {
+        throw `There was an error processing a file from storage: ${e}`;
+    }
+})();

@@ -1,11 +1,11 @@
-FILES="*.js src/**/*.js storage/*.js"
+FILES="*.js src/**/*.js storage/*.js";
 
 runLint(){
   eslint $FILES;
 }
 
 runFix(){
-  eslint --fix $FILES
+  eslint --fix $FILES;
 }
 
 "$@"

@@ -1,5 +1,5 @@
 loadBucketFiles(){
-  node src/prep/load-all-files.js
+  node src/prep/load-all-files.js;
 }
 
 unzipFiles(){
