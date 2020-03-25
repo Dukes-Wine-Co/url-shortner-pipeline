@@ -1,16 +1,38 @@
 source env.sh;
 DB="prod";
 COLLECTION="url-traffic";
+CONTAINER_NAME="metabase";
+PORT=3007;
+METABASE_URL="http://localhost:$PORT"
+
+openMetabaseChrome(){
+   open -a "Google Chrome" $METABASE_URL;
+}
+
+restartDocker() {
+  docker restart "$CONTAINER_NAME";
+}
 
 startDocker() {
-  docker run -d -p 3000:3000 \
-    -v ~/metabase-data:/metabase-data \
-    -e "MB_DB_FILE=/metabase-data/metabase.db" \
-    --name metabase metabase/metabase;
+  if [[ $(restartDocker) ]]
+  then
+    echo "$CONTAINER_NAME container restarted";
+  else
+    docker run -d -p $PORT:3000 \
+      -v ~/metabase-data:/metabase-data \
+      -e "MB_DB_FILE=/metabase-data/metabase.db" \
+      --name "$CONTAINER_NAME" metabase/metabase;
+
+    echo "$CONTAINER_NAME container started";
+  fi
+
+  echo "$CONTAINER_NAME container running";
+
+  openMetabaseChrome;
 }
 
 killDocker() {
-  (docker kill metabase || true) && (docker rm metabase || true) && echo "container killed";
+  (docker kill $CONTAINER_NAME || true) && (docker rm $CONTAINER_NAME || true) && echo "$CONTAINER_NAME container killed";
 }
 
 uploadMongo() {

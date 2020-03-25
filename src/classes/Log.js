@@ -1,16 +1,4 @@
-const webProperties = [
-    'message',
-    'timestamp',
-    'statusCode',
-    'requestHost',
-    'userAgent',
-    'ip',
-    'acceptLanguage',
-    'domain',
-    'correlationId',
-    'redirectedUrl',
-    '_lid'
-];
+const { logWebProperties } = require('../constants');
 
 class Log {
     constructor(str) {
@@ -18,7 +6,7 @@ class Log {
     }
 
     isWebResponse() {
-        return webProperties.every(prop => prop in this._source);
+        return logWebProperties.every(prop => prop in this._source);
     }
 
     addReferrer(){
@@ -32,7 +20,7 @@ class Log {
     processLog(){
         if (this.isWebResponse()) {
             const obj = {};
-            webProperties.forEach(prop => {
+            logWebProperties.forEach(prop => {
                 obj[prop] = this._source[prop];
             });
 

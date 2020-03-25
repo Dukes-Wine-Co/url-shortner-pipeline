@@ -1,3 +1,9 @@
+source env.sh;
+
+setCloudProject(){
+  gcloud config configurations activate default;
+}
+
 loadBucketFiles(){
   node src/prep/load-all-files.js;
 }

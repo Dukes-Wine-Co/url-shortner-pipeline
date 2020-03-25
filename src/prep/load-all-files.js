@@ -2,14 +2,11 @@ const storage = require('../../storage/google-cloud-client');
 const bucket = storage.bucket('shortened-urls-beta');
 const fs = require('fs');
 
-const downloadAndWriteFile = file => {
+const downloadAndWriteFile = async (file) => {
     const fileName = file.id;
 
-    file.download()
-        .then(data => {
-            const contents = data[0];
-            fs.writeFileSync(`tmp-objs/${fileName}`, contents);
-        });
+    const fileData = await file.download();
+    fs.writeFileSync(`tmp-objs/${fileName}`, fileData[0]);
 };
 
 bucket.getFiles()
