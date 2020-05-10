@@ -2,7 +2,7 @@ const storage = require('../../storage/google-cloud-client');
 const bucket = storage.bucket('shortened-urls-beta');
 const fs = require('fs');
 
-const downloadAndWriteFile = async (file) => {
+const downloadAndWriteFile = async file => {
     const fileName = file.id;
 
     const fileData = await file.download();

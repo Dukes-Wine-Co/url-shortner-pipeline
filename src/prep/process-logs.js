@@ -21,8 +21,9 @@ const processLineByLine = async() => {
 
     for await (const line of rl) {
         const log = new Log(line);
-        if (log.processLog()){
-            const obj = typeof log === 'string' ? '' : formatObj(log.processLog());
+        const processedLog = await log.processLog();
+        if (processedLog){
+            const obj = typeof log === 'string' ? '' : formatObj(processedLog);
             console.log(JSON.stringify(obj));
         }
     }

@@ -1,4 +1,5 @@
 const { logWebProperties } = require('../constants');
+const request = require('request-promise');
 
 class Log {
     constructor(str) {
@@ -9,15 +10,41 @@ class Log {
         return logWebProperties.every(prop => prop in this._source);
     }
 
+    getLocationData(){
+        const options = {
+            url: `http://api.ipstack.com/${this._source.ip}`,
+            qs: {
+                access_key: process.env.IP_STACK_KEY, // eslint-disable-line camelcase
+                output: 'json'
+            }
+        };
+
+        return request(options)
+            .catch(err => {
+                console.error(err);
+                return {};
+            });
+    }
+
     addReferrer(){
         return this._source.hasOwnProperty('referrer');
     }
 
-    addOriginalPath(){
+    addOriginalPath() {
         return this._source.hasOwnProperty('originalPath');
     }
 
-    processLog(){
+    async processLocationData(){
+        const locationData = await this.getLocationData();
+        if (locationData.success === 'false' || locationData.success === false){
+            return {};
+        }
+
+        const { location, ...relevantData } = JSON.parse(locationData);
+        return relevantData;
+    }
+
+    async processLog(){
         if (this.isWebResponse()) {
             const obj = {};
             logWebProperties.forEach(prop => {
@@ -32,7 +59,8 @@ class Log {
                 ? this._source.originalPath
                 : this._source.originalURL;
 
-            return obj;
+            const locationData = await this.processLocationData();
+            return { ...obj, ...locationData };
         }
 
         return '';

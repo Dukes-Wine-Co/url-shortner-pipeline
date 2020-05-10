@@ -57,7 +57,7 @@ describe('Log', () => {
         });
     });
 
-    describe('processedLogs', () => {
+    xdescribe('processedLogs', () => {
         it('has all of the expected web properties in the processed log', () => {
             const expectedKeys = [...logWebProperties, 'referer', 'originalPath']
             expect(goodLog.processLog()).to.be.an('object').with.all.keys(expectedKeys);

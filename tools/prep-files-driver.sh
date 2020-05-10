@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source env.sh;
 source tools/prep-files.sh;
 

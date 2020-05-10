@@ -18,6 +18,8 @@ startDocker() {
   then
     echo "$CONTAINER_NAME container restarted";
   else
+    echo "need to start $CONTAINER_NAME - restart failed";
+
     docker run -d -p $PORT:3000 \
       -v ~/metabase-data:/metabase-data \
       -e "MB_DB_FILE=/metabase-data/metabase.db" \

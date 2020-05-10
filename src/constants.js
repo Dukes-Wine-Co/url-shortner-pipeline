@@ -1,5 +1,4 @@
 const logWebProperties = [
-    'message',
     'timestamp',
     'statusCode',
     'requestHost',
