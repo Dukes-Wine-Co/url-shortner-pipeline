@@ -36,7 +36,8 @@ class Log {
 
     async processLocationData(){
         const locationData = await this.getLocationData();
-        if (locationData.success === 'false' || locationData.success === false){
+        const locationObj = JSON.parse(locationData);
+        if (locationObj.success === 'false' || locationObj.success === false){
             return {};
         }
 
