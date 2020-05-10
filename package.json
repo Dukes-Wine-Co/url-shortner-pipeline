@@ -18,6 +18,8 @@
     "upload": "sh tools/upload-files.sh"
   },
   "author": "Dukes Wine Engineering",
+  "email" : "technology@dukeswines.com",
+  "url" : "https://dukeswines.com",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^4.5.0",
