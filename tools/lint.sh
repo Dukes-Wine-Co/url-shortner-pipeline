@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-FILES="*.js src/**/*.js storage/*.js";
+FILES="src/**/*.js storage/**/*.js test/**/*.js";
 
 runLint(){
   eslint $FILES;

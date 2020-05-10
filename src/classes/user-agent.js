@@ -24,10 +24,10 @@ class UserAgent {
             const objKeys = Object.keys(currObj);
 
             objKeys.forEach(innerKey => {
-                const newKeyName = `${key}${capitalizeFirstLetter(innerKey)}`
+                const newKeyName = `${key}${capitalizeFirstLetter(innerKey)}`;
                 finalObj[newKeyName] = currObj[innerKey];
-            })
-        })
+            });
+        });
 
         return clearEmptyObjFields(finalObj);
     }

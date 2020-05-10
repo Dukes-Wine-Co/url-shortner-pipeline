@@ -53,7 +53,7 @@ class Log {
 
     async processLog(){
         if (this.isWebResponse()) {
-            const obj = this.processUserAgent(this._source['userAgent']);
+            const obj = this.processUserAgent(this._source.userAgent);
 
             logWebProperties.forEach(prop => {
                 obj[prop] = this._source[prop];
