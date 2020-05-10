@@ -1,13 +1,8 @@
-const proxyquire = require('proxyquire').noCallThru();
 const chai = require('chai');
 
 const { expect } = chai;
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
 
-chai.use(sinonChai);
-
-const Log = require('../../../src/classes/Log');
+const Log = require('../../../src/classes/log');
 const testData = require('../test-data/logs');
 const { logWebProperties } = require('../../../src/constants');
 

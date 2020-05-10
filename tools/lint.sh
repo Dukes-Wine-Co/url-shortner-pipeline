@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 FILES="*.js src/**/*.js storage/*.js";
 
 runLint(){

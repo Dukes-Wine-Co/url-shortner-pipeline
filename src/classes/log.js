@@ -1,5 +1,6 @@
 const { logWebProperties } = require('../constants');
 const request = require('request-promise');
+const UserAgent = require('./user-agent');
 
 class Log {
     constructor(str) {
@@ -10,7 +11,7 @@ class Log {
         return logWebProperties.every(prop => prop in this._source);
     }
 
-    getLocationData(){
+    async getLocationData(){
         const options = {
             url: `http://api.ipstack.com/${this._source.ip}`,
             qs: {
@@ -19,19 +20,24 @@ class Log {
             }
         };
 
-        return request(options)
-            .catch(err => {
-                console.error(err);
-                return {};
-            });
+        try {
+            return await request(options);
+        } catch (e){
+            return '{}';
+        }
     }
 
     addReferrer(){
         return this._source.hasOwnProperty('referrer');
     }
 
-    addOriginalPath() {
+    addOriginalPath(){
         return this._source.hasOwnProperty('originalPath');
+    }
+
+    processUserAgent(uaString){
+        const ua = new UserAgent(uaString);
+        return ua.flatten();
     }
 
     async processLocationData(){
@@ -47,7 +53,8 @@ class Log {
 
     async processLog(){
         if (this.isWebResponse()) {
-            const obj = {};
+            const obj = this.processUserAgent(this._source['userAgent']);
+
             logWebProperties.forEach(prop => {
                 obj[prop] = this._source[prop];
             });

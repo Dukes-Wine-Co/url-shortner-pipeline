@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source tools/configure-database.sh;
 source env.sh;
 

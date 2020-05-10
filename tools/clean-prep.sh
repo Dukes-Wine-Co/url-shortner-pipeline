@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 TMP_DIR=tmp-objs;
 OUTPUT_DIR=dist;
 

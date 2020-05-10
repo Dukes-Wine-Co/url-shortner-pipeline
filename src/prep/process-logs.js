@@ -1,4 +1,4 @@
-const Log = require('../classes/Log');
+const Log = require('../classes/log');
 const fs = require('fs');
 const readline = require('readline');
 
