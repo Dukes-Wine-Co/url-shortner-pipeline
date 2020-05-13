@@ -31,11 +31,20 @@ startDocker() {
 
   echo "$CONTAINER_NAME container running";
 
-  openMetabaseChrome;
+  runTunnel && sleep 30 && openMetabaseChrome;
 }
 
 killDocker() {
   (docker kill $CONTAINER_NAME || true) && (docker rm $CONTAINER_NAME || true) && echo "$CONTAINER_NAME container killed";
+}
+
+runTunnel(){
+    docker exec -d ${CONTAINER_NAME} ./ngrok http 3000 -subdomain=$NGROK_SUBDOMAIN;
+}
+
+updateMetabase(){
+    docker pull metabase/metabase;
+    startDocker;
 }
 
 uploadMongo() {
