@@ -4,14 +4,15 @@ DB="prod";
 COLLECTION="url-traffic";
 CONTAINER_NAME="metabase";
 PORT=3007;
-METABASE_URL="http://localhost:$PORT"
+METABASE_URL="http://localhost:$PORT";
+NGROK_INSTALL="ngrok-install.zip";
 
 openMetabaseChrome(){
-   open -a "Google Chrome" $METABASE_URL;
+   open -a "Google Chrome" ${METABASE_URL};
 }
 
 restartDocker() {
-  docker restart "$CONTAINER_NAME";
+  docker restart ${CONTAINER_NAME};
 }
 
 startDocker() {
@@ -35,11 +36,11 @@ startDocker() {
 }
 
 killDocker() {
-  (docker kill $CONTAINER_NAME || true) && (docker rm $CONTAINER_NAME || true) && echo "$CONTAINER_NAME container killed";
+  (docker kill ${CONTAINER_NAME} || true) && (docker rm ${CONTAINER_NAME} || true) && echo "$CONTAINER_NAME container killed";
 }
 
 runTunnel(){
-    docker exec -d ${CONTAINER_NAME} ./ngrok http 3000 -subdomain=$NGROK_SUBDOMAIN;
+    docker exec -d ${CONTAINER_NAME} ./ngrok http 3000 -subdomain=${NGROK_SUBDOMAIN};
 }
 
 updateMetabase(){
@@ -47,19 +48,25 @@ updateMetabase(){
     startDocker;
 }
 
+addNgrok(){
+    docker cp ngrok/${NGROK_INSTALL}- ${CONTAINER_NAME}:/;
+    docker exec -it ${CONTAINER_NAME} unzip ${NGROK_INSTALL};
+    docker exec -it ${CONTAINER_NAME} ./ngrok authtoken ${NGROK_AUTH_TOKEN};
+}
+
 uploadMongo() {
-  mongoimport --host "$MONGO_DB_HOST" \
-    --ssl --username "$MONGO_DB_USR" \
-    --password "$MONGO_DB_PSW" \
+  mongoimport --host ${MONGO_DB_HOST} \
+    --ssl --username ${MONGO_DB_USR} \
+    --password ${MONGO_DB_PSW} \
     --authenticationDatabase admin \
-    --db $DB \
-    --collection $COLLECTION --drop \
+    --db ${DB} \
+    --collection ${COLLECTION} --drop \
     --type json \
     --file dist/output.json;
 }
 
 exportMongo(){
-  mongoexport -d $DB -c $COLLECTION -o dist/"$COLLECTION".json;
+  mongoexport -d ${DB} -c ${COLLECTION} -o dist/${COLLECTION}.json;
 }
 
 uploadGcloud(){
@@ -67,7 +74,7 @@ uploadGcloud(){
   --autodetect \
   --replace=true \
   --source_format=NEWLINE_DELIMITED_JSON \
-  "$GCLOUD_STORAGE" \
+  ${GCLOUD_STORAGE} \
   dist/output.json;
 }
 

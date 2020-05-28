@@ -1,6 +1,7 @@
 const { logWebProperties } = require('../constants');
 const request = require('request-promise');
 const UserAgent = require('./user-agent');
+const DateInfo = require('./custom-date');
 
 class Log {
     constructor(str) {
@@ -40,6 +41,11 @@ class Log {
         return ua.flatten();
     }
 
+    getDateInfo(){
+        const timestamp = this._source[prop];
+        return new DateInfo(timestamp);
+    }
+
     async processLocationData(){
         const locationData = await this.getLocationData();
         const locationObj = JSON.parse(locationData);
@@ -54,6 +60,7 @@ class Log {
     async processLog(){
         if (this.isWebResponse()) {
             const obj = this.processUserAgent(this._source.userAgent);
+            const dateInfo = this.getDateInfo();
 
             logWebProperties.forEach(prop => {
                 obj[prop] = this._source[prop];
@@ -68,7 +75,7 @@ class Log {
                 : this._source.originalURL;
 
             const locationData = await this.processLocationData();
-            return { ...obj, ...locationData };
+            return { ...obj, ...locationData, ...dateInfo };
         }
 
         return '';
