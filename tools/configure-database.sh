@@ -8,7 +8,7 @@ METABASE_URL="http://localhost:$PORT";
 NGROK_INSTALL="ngrok-install.zip";
 
 openMetabaseChrome(){
-   open -a "Google Chrome" ${METABASE_URL};
+   open -a "Google Chrome" "${NGROK_SUBDOMAIN}.ngrok.io";
 }
 
 restartDocker() {
@@ -40,7 +40,7 @@ killDocker() {
 }
 
 runTunnel(){
-    docker exec -d ${CONTAINER_NAME} ./ngrok http 3000 -subdomain=${NGROK_SUBDOMAIN};
+    docker exec -d ${CONTAINER_NAME} ./ngrok http 3000 -subdomain="${NGROK_SUBDOMAIN}";
 }
 
 updateMetabase(){

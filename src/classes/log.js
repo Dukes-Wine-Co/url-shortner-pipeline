@@ -5,16 +5,21 @@ const DateInfo = require('./custom-date');
 
 class Log {
     constructor(str) {
-        Object.assign(this, JSON.parse(str));
+        this.source = JSON.parse(str)._source;
+        this.logInfo = JSON.parse(str)._source.o__message;
     }
 
     isWebResponse() {
-        return logWebProperties.every(prop => prop in this._source);
+        if (this.logInfo){
+            return logWebProperties.every(prop => prop in this.logInfo);
+        }
+
+        return false;
     }
 
     async getLocationData(){
         const options = {
-            url: `http://api.ipstack.com/${this._source.ip}`,
+            url: `http://api.ipstack.com/${this.logInfo.ip}`,
             qs: {
                 access_key: process.env.IP_STACK_KEY, // eslint-disable-line camelcase
                 output: 'json'
@@ -29,11 +34,11 @@ class Log {
     }
 
     addReferrer(){
-        return this._source.hasOwnProperty('referrer');
+        return this.logInfo.hasOwnProperty('referrer');
     }
 
     addOriginalPath(){
-        return this._source.hasOwnProperty('originalPath');
+        return this.logInfo.hasOwnProperty('originalPath');
     }
 
     processUserAgent(uaString){
@@ -42,7 +47,7 @@ class Log {
     }
 
     getDateInfo(){
-        const timestamp = this._source['timestamp'];
+        const timestamp = this.logInfo['timestamp'];
         return new DateInfo(timestamp).getDateInfo();
     }
 
@@ -59,20 +64,20 @@ class Log {
 
     async processLog(){
         if (this.isWebResponse()) {
-            const obj = this.processUserAgent(this._source.userAgent);
+            const obj = this.processUserAgent(this.logInfo.userAgent);
             const dateInfo = this.getDateInfo();
 
             logWebProperties.forEach(prop => {
-                obj[prop] = this._source[prop];
+                obj[prop] = this.logInfo[prop];
             });
 
             obj.referer = this.addReferrer()
-                ? this._source.referrer
-                : this._source.referer;
+                ? this.logInfo.referrer
+                : this.logInfo.referer;
 
             obj.originalPath = this.addOriginalPath()
-                ? this._source.originalPath
-                : this._source.originalURL;
+                ? this.logInfo.originalPath
+                : this.logInfo.originalURL;
 
             const locationData = await this.processLocationData();
 

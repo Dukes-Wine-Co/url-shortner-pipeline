@@ -3,10 +3,21 @@ class customDate {
         this.date = new Date(+timestamp)
     }
 
-    getDateInfo(){
+    parseDateInfo(){
+        let [dayOfWeek, ...date] = this.date.toDateString();
         return {
-            date: this.date.toDateString(),
-            time: this.date.toLocaleString()
+            dayOfWeek,
+            date: date.join(' ')
+        }
+    }
+
+    getDateInfo(){
+        const { dayOfWeek, date } = this.parseDateInfo();
+
+        return {
+            dayOfWeek,
+            date,
+            time: this.date.toLocaleTimeString()
         };
     }
 }
