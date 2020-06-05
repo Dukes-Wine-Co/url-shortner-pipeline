@@ -4,7 +4,7 @@ class customDate {
     }
 
     parseDateInfo(){
-        let [dayOfWeek, ...date] = this.date.toDateString();
+        let [dayOfWeek, ...date] = this.date.toDateString().split(' ');
         return {
             dayOfWeek,
             date: date.join(' ')
