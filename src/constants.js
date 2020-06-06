@@ -1,6 +1,5 @@
 const logWebProperties = [
     'statusCode',
-    'requestHost',
     'ip',
     'acceptLanguage',
     'domain',
