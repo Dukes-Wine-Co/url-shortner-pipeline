@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-source env.sh;
+if [ "$(whoami)" == "tscafe" ]; then
+        source env.sh;
+fi
 
 setCloudProject(){
   gcloud config configurations activate default;

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-source env.sh;
+
+if [ "$(whoami)" == "tscafe" ]; then
+        source env.sh;
+fi
 source tools/prep-files.sh;
 
 (echo 'Setting Gcloud project'; setCloudProject) \
