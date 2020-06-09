@@ -8,8 +8,8 @@ pipeline {
   stages {
     stage('Copy creds') {
       steps {
-        configFileProvider([configFile(fileId: '3def6afe-170a-4598-a91a-7b66face82aa', replaceTokens: true, targetLocation: '3def6afe-170a-4598-a91a-7b66face82aa', variable: 'GCLOUD_VAL')]){
-              sh '$GCLOUD_VALS > storage/service-account-creds.json'
+        configFileProvider([configFile(fileId: '3def6afe-170a-4598-a91a-7b66face82aa', replaceTokens: true, targetLocation: 'storage/service-account-creds.json', variable: 'GCLOUD_VAL')]){
+              sh 'echo "written successfully"'
           }
       }
     }
@@ -23,12 +23,6 @@ pipeline {
     stage('Install dependencies') {
       steps {
         sh 'npm ci'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'npm run test:unit'
       }
     }
 

@@ -16,7 +16,7 @@ describe('Log', () => {
 
     describe('constructor', () => {
         it('sets the stringified object as an object', () => {
-            expect(goodLog).to.deep.eql(testData.goodLogString)
+            expect(goodLog.source).to.deep.eql(testData.goodLogString._source)
         });
     });
 
