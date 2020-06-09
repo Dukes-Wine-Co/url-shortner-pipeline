@@ -5,14 +5,13 @@ pipeline {
     nodejs "node"
   }
 
-  node {
-    configFileProvider(
-        [configFile(fileId: '3def6afe-170a-4598-a91a-7b66face82aa', variable: 'GCLOUD_VALS')]) {
-        sh '$GCLOUD_VALS > storage/service-account-creds.json'
-    }
-  }
-
   stages {
+    stage('Copy creds'){
+      configFileProvider([configFile(fileId: '3def6afe-170a-4598-a91a-7b66face82aa', replaceTokens: true, targetLocation: '3def6afe-170a-4598-a91a-7b66face82aa', variable: 'GCLOUD_VAL')]){
+              sh '$GCLOUD_VALS > storage/service-account-creds.json'
+          }
+    }
+
     stage('Cloning Git') {
       steps {
         git 'https://github.com/Dukes-Wine-Co/url-shortner-pipeline'
