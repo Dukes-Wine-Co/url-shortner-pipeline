@@ -11,7 +11,7 @@ pipeline {
         steps {
           configFileProvider(
               [configFile(fileId: '3def6afe-170a-4598-a91a-7b66face82aa', variable: 'GCLOUD_VALS')]) {
-              sh 'GCLOUD_VALS > storage/service-account-creds.json'
+              sh '$GCLOUD_VALS > storage/service-account-creds.json'
           }
         }
     }
