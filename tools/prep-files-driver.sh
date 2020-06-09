@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-if [ "$(whoami)" == "tscafe" ]; then
-        source env.sh;
-fi
-source tools/prep-files.sh;
+. env.sh;
+. tools/prep-files.sh;
 
 (echo 'Setting Gcloud project'; setCloudProject) \
 && (echo 'Starting the driver to prep files for processing'; echo 'Loading the files from the external storage bucket'; loadBucketFiles) \

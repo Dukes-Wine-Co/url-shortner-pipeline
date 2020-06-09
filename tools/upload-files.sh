@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-if [ "$(whoami)" == "tscafe" ]; then
-        source env.sh;
-fi
-source tools/configure-database.sh;
+. env.sh;
+. tools/configure-database.sh;
 
 
 (echo "Uploading files to mongodb" && uploadMongo) \

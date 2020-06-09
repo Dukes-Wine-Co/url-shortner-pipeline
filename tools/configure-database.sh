@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-if [ "$(whoami)" == "tscafe" ]; then
-        source env.sh;
-fi
+. env.sh;
 DB="prod";
 COLLECTION="url-traffic";
 CONTAINER_NAME="metabase";
