@@ -47,7 +47,7 @@ class Log {
     }
 
     getDateInfo(){
-        const timestamp = this.logInfo['timestamp'];
+        const { timestamp } = this.logInfo;
         return new DateInfo(timestamp).getDateInfo();
     }
 
