@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./env.sh;
+source ./env.sh;
 
 setCloudProject(){
   gcloud config configurations activate default;

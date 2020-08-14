@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./env.sh;
+source ./env.sh;
 DB="prod";
 COLLECTION="url-traffic";
 CONTAINER_NAME="metabase";

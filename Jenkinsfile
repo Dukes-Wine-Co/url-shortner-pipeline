@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+          JSON_PARSER_CREDS = credentials('json-parser-creds')
+      }
+
   tools {
     nodejs "node"
   }
@@ -22,17 +26,21 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        sh 'npm ci'
+        script {
+            sh 'npm ci'
+        }
       }
     }
 
     stage('Update Logs'){
       steps {
-        withEnv(['GCLOUD_PATH=/var/jenkins_home/google-cloud-sdk/bin']) {
-          sh 'alias gcloud="$GCLOUD_PATH/gcloud"'
-          sh 'npm run start'
-        }
-      }
+          script {
+            sh '''
+                cp $JSON_PARSER_CREDS env.sh
+                npm run start
+            '''
+          }
+       }
     }
   }
 }
