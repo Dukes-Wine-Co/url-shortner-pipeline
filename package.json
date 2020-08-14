@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "audit": "npm audit --audit-level=high --registry=https://registry.npmjs.org",
     "clean:prep": "./tools/clean-prep.sh run",
     "clean:clear": "./tools/clean-prep.sh clean",
     "lint": "./tools/lint.sh runLint",

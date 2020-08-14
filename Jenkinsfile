@@ -22,15 +22,15 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        sh 'npm ci'
+        bash 'npm ci'
       }
     }
 
     stage('Update Logs'){
       steps {
         withEnv(['GCLOUD_PATH=/var/jenkins_home/google-cloud-sdk/bin']) {
-          sh 'alias gcloud="$GCLOUD_PATH/gcloud"'
-          sh 'npm run start'
+          bash 'alias gcloud="$GCLOUD_PATH/gcloud"'
+          bash 'npm run start'
         }
       }
     }
