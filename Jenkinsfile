@@ -33,7 +33,7 @@ pipeline {
         withEnv(['GCLOUD_PATH=/var/jenkins_home/google-cloud-sdk/bin']) {
           script {
             sh 'alias gcloud="$GCLOUD_PATH/gcloud"'
-            bash 'npm run start'
+            sh 'npm run start'
           }
         }
       }
